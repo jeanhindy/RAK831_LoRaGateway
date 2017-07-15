@@ -6,12 +6,12 @@
 # [STEP 1] Download and unpack the RAK831_LoRaGateway
 # File must match SHA1 Checksum: 1b994a23b118f83144261e3e786c43df74a81cd5
 #Method one
-wget https://github.com/RAKWireless/RAK831_LoRaGateway/archive/master.zip
+wget https://github.com/RAKWiskey/RAK831_LoRaGateway-test/archive/master.zip
 
 unzip master.zip
 
 #Method two
-git clone https://github.com/RAKWireless/RAK831_LoRaGateway.git
+git clone https://github.com/RAKWiskey/RAK831_LoRaGateway-test.git
 
 -----------------------------------------------------------------------------------------
 
