@@ -30,7 +30,7 @@ Maintainer: Sylvain Miermont
 #include <linux/spi/spidev.h>
 
 #include "loragw_spi.h"
-
+#include "loragw_hal.h" 
 /* -------------------------------------------------------------------------- */
 /* --- PRIVATE MACROS ------------------------------------------------------- */
 
@@ -181,7 +181,7 @@ int lgw_spi_w(void *spi_target, uint8_t address, uint8_t data) {
 	k.tx_buf = (unsigned long) out_buf;
 	k.len = ARRAY_SIZE(out_buf);
 	k.speed_hz = SPI_SPEED;
-	k.cs_change = 1;
+	k.cs_change = 0;
 	k.bits_per_word = 8;
 	a = ioctl(spi_device, SPI_IOC_MESSAGE(1), &k);
 	
@@ -223,7 +223,7 @@ int lgw_spi_r(void *spi_target, uint8_t address, uint8_t *data) {
 	k.tx_buf = (unsigned long) out_buf;
 	k.rx_buf = (unsigned long) in_buf;
 	k.len = ARRAY_SIZE(out_buf);
-	k.cs_change = 1;
+	k.cs_change = 0;
 	a = ioctl(spi_device, SPI_IOC_MESSAGE(1), &k);
 	
 	/* determine return code */
@@ -270,7 +270,7 @@ int lgw_spi_wb(void *spi_target, uint8_t address, uint8_t *data, uint16_t size) 
 	k[0].tx_buf = (unsigned long) &command;
 	k[0].len = 1;
 	k[0].cs_change = 0;
-	k[1].cs_change = 1;
+	k[1].cs_change = 0;
 	for (i=0; size_to_do > 0; ++i) {
 		chunk_size = (size_to_do < LGW_BURST_CHUNK) ? size_to_do : LGW_BURST_CHUNK;
 		offset = i * LGW_BURST_CHUNK;
@@ -324,7 +324,7 @@ int lgw_spi_rb(void *spi_target, uint8_t address, uint8_t *data, uint16_t size) 
 	k[0].tx_buf = (unsigned long) &command;
 	k[0].len = 1;
 	k[0].cs_change = 0;
-	k[1].cs_change = 1;
+	k[1].cs_change = 0;
 	for (i=0; size_to_do > 0; ++i) {
 		chunk_size = (size_to_do < LGW_BURST_CHUNK) ? size_to_do : LGW_BURST_CHUNK;
 		offset = i * LGW_BURST_CHUNK;
