@@ -383,6 +383,9 @@ int main(int argc, char ** argv)
 					printf(" size:%3u\n", p->size);
 					printf(" invalid status ?!?\n\n");
 				}
+				for (j = 0; j < ARRAY_SIZE(rxpkt); ++j) {
+					printf(" %02X", rxpkt[j]);
+				}
 			}
 		}
 	}
