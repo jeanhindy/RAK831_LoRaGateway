@@ -384,7 +384,7 @@ int main(int argc, char ** argv)
 					printf(" invalid status ?!?\n\n");
 				}
 				for (j = 0; j < p->size; j++) {
-					printf("\n");
+					//printf("\n");
 					printf(" %02X", rxpkt[j]);
 				}
 			}
