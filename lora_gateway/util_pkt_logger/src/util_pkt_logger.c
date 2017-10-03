@@ -77,6 +77,21 @@ void usage (void);
 /* -------------------------------------------------------------------------- */
 /* --- PRIVATE FUNCTIONS DEFINITION ----------------------------------------- */
 
+#define CHANNEL_NUM		8
+#define F_RX_0 			(0)
+#define F_RX_1			(0)
+
+int offset_tab[CHANNEL_NUM][3] = {
+	{-400000, 0, F_RX_0,},
+	{-200000, 0, F_RX_0,},
+	{      0, 0, F_RX_0,},
+	{ 200000, 0, F_RX_0,},
+	{-400000, 1, F_RX_1,},
+	{-200000, 1, F_RX_1,},
+	{      0, 1, F_RX_1,},
+	{ 200000, 1, F_RX_1,},
+};
+
 static void sig_handler(int sigio) {
 	if (sigio == SIGQUIT) {
 		quit_sig = 1;;
