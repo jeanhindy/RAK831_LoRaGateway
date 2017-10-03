@@ -436,7 +436,56 @@ int main(int argc, char **argv)
 		/* log packets */
 		for (i=0; i < nb_pkt; ++i) {
 			p = &rxpkt[i];
-			
+			printf("---\nRcv pkt #%d >>", i+1);
+			printf("freq:%d\n", offset_tab[p->if_chain][2]+offset_tab[p->if_chain][0]);
+			if (p->status == STAT_CRC_OK) {
+				printf(" if_chain:%2d", p->if_chain);
+				printf(" tstamp:%010u", p->count_us);
+				printf(" size:%3u", p->size);
+				switch (p-> modulation) {
+					case MOD_LORA: printf(" LoRa"); break;
+					case MOD_FSK: printf(" FSK"); break;
+					default: printf(" modulation?");
+				}
+				switch (p->datarate) {
+					case DR_LORA_SF7: printf(" SF7"); break;
+					case DR_LORA_SF8: printf(" SF8"); break;
+					case DR_LORA_SF9: printf(" SF9"); break;
+					case DR_LORA_SF10: printf(" SF10"); break;
+					case DR_LORA_SF11: printf(" SF11"); break;
+					case DR_LORA_SF12: printf(" SF12"); break;
+					default: printf(" datarate?");
+				}
+				switch (p->coderate) {
+					case CR_LORA_4_5: printf(" CR1(4/5)"); break;
+					case CR_LORA_4_6: printf(" CR2(2/3)"); break;
+					case CR_LORA_4_7: printf(" CR3(4/7)"); break;
+					case CR_LORA_4_8: printf(" CR4(1/2)"); break;
+					default: printf(" coderate?");
+				}
+				printf("\n");
+				printf(" RSSI:%+6.1f SNR:%+5.1f (min:%+5.1f, max:%+5.1f) payload:\n", p->rssi, p->snr, p->snr_min, p->snr_max);
+
+				for (j = 0; j < p->size; ++j) {
+					printf(" %02X", p->payload[j]);
+				}
+				printf(" #\n");
+			} else if (p->status == STAT_CRC_BAD) {
+				printf(" if_chain:%2d", p->if_chain);
+				printf(" tstamp:%010u", p->count_us);
+				printf(" size:%3u\n", p->size);
+				printf(" CRC error, damaged packet\n\n");
+			} else if (p->status == STAT_NO_CRC){
+				printf(" if_chain:%2d", p->if_chain);
+				printf(" tstamp:%010u", p->count_us);
+				printf(" size:%3u\n", p->size);
+				printf(" no CRC\n\n");
+			} else {
+				printf(" if_chain:%2d", p->if_chain);
+				printf(" tstamp:%010u", p->count_us);
+				printf(" size:%3u\n", p->size);
+				printf(" invalid status ?!?\n\n");
+			}
 			/* writing gateway ID */
 			fprintf(log_file, "\"%08X%08X\",", (uint32_t)(lgwm >> 32), (uint32_t)(lgwm & 0xFFFFFFFF));
 			
