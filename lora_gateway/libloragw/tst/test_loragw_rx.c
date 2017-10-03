@@ -334,7 +334,7 @@ int main(int argc, char ** argv)
 			for(i=0; i < nb_pkt; ++i) {
 				p = &rxpkt[i];
 				printf("---\nRcv pkt #%d >>", i+1);
-				/*printf("freq:%d\n", offset_tab[p->if_chain][2]+offset_tab[p->if_chain][0]);
+				printf("freq:%d\n", offset_tab[p->if_chain][2]+offset_tab[p->if_chain][0]);
 				if (p->status == STAT_CRC_OK) {
 					printf(" if_chain:%2d", p->if_chain);
 					printf(" tstamp:%010u", p->count_us);
@@ -382,8 +382,9 @@ int main(int argc, char ** argv)
 					printf(" tstamp:%010u", p->count_us);
 					printf(" size:%3u\n", p->size);
 					printf(" invalid status ?!?\n\n");
-				}*/
-				for (j = 0; j < ARRAY_SIZE(rxpkt); ++j) {
+				}
+				for (j = 0; j < p->size; j++) {
+					printf("\n");
 					printf(" %02X", rxpkt[j]);
 				}
 			}
